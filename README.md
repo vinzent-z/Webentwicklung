@@ -46,5 +46,8 @@ Wiederholungen: ...
 ##neues Training Hinzufügen
 ##letzes training aufrufen
 ##zurück zum start
+  
 
+  törken
+  
 
