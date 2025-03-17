@@ -9,6 +9,8 @@ Nutzen Trainingsvergleich Erfolge feststellen.
 ##wiederholungen gesamte zeit
 ##neues Training Hinzufügen
 ##letzes training aufrufen
+##alle trainings
+
 
 
 
@@ -18,6 +20,9 @@ unterseite 1
 Sätze: ...
 Wiederholungen: ...
 #Gefühl: ....
+##neues Training Hinzufügen
+##letzes training aufrufen
+##zurück zum start
 
 
 Unterseite 2
@@ -26,4 +31,8 @@ Unterseite 2
 Sätze: ...
 Wiederholungen: ...
 ##Gefühl : ....
+##neues Training Hinzufügen
+##letzes training aufrufen
+##zurück zum start
+
 
