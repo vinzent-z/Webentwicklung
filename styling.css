@@ -1,4 +1,18 @@
-.yarrak {
-    background: yellowgreen;
-    color: white;
+
+
+p {
+    font: Courier;
+    font: 14px Courier;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    padding: 0px 5px 0px 5px;
+    border-right: 2px solid white;
+  }
+
+.jo{ font: Courir;
+    font:bold;
+    color: red;
+   
+
+
 }
