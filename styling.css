@@ -1,0 +1,35 @@
+body{
+    display: flex;
+    flex-direction: column;  
+    justify-content: center; 
+    align-items: center;     
+    height: 45vh;           
+    margin: 0;               
+    background-color: rgb(18, 7, 29);
+  }
+
+  div,footer{
+    font: Courier;
+    font: 20px Courier;
+    text-decoration: none;
+    color: white;
+    padding: 0px 5px 0px 5px;
+  
+  }
+header{font: Courier;
+    font: 45px Courier;
+    text-decoration: none;
+    color: white;
+    padding: 0px 5px 0px 5px;
+   }
+
+    a{font: Courier;
+        font: 20px Courier;
+        text-decoration: none;
+        color: #55a4fd;
+        padding: 0px 5px 0px 5px;
+       
+        
+    }
+   
+    hr{width: 75vh}
