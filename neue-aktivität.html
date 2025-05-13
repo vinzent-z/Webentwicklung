@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styling.css" />
+    <script src="neue-Aktivität.js" defer></script>
     <title>neue Aktivität</title>
   </head>
   <header>Neue-Aktivität</header>
@@ -11,25 +12,26 @@
     <hr />
     <div>
       <label>Aktivität am </label>
-      <input type="date" />
+      <input id="date" type="date" />
     </div>
 
     <div>
       <label>Sportart </label>
-      <input type="text" /> 
+      <input id="sport" type="text" />
     </div>
 
     <div>
-      <label>Dauer </label>
-      <input type="number" />
+      <label>Dauer in Minuten </label>
+      <input id="duration" type="number" />
     </div>
 
     <div>
       <label>Gefühl</label>
-      <input type="text" />
+      <input id="feeling" type="text" />
     </div>
 
-    <div>Aktivität speichern</div>
+    <button onclick="saveActivity()">Speichern</button>
+
     <hr />
     <footer>
       <div>

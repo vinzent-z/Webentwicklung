@@ -8,7 +8,7 @@ body{
     background-color: rgb(18, 7, 29);
   }
 
-  div,footer{
+  div,footer,ul{
     font: Courier;
     font: 20px Courier;
     text-decoration: none;
