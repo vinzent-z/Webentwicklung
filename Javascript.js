@@ -1,4 +1,27 @@
-    // Funktion zum Laden und Anzeigen der gespeicherten Aktivitäten
+function updateStats() {
+    const activities = JSON.parse(localStorage.getItem("activities")) || {};
+    const activityCount = Object.keys(activities).length;
+    const totalTime = Object.values(activities).reduce(
+      (sum, activity) => sum + parseInt(activity.duration || 0, 10),
+      0
+    );
+
+    // Statistiken in die HTML-Elemente einfügen
+    document.getElementById("activity-count").textContent = `Aktivitäten seit Beginn: ${activityCount}`;
+    document.getElementById("total-time").textContent = `Gesamte Zeit in Aktivitäten: ${totalTime} Minuten`;
+  }
+
+  // Statistiken laden, wenn die Seite geladen wird
+  document.addEventListener("DOMContentLoaded", updateStats);
+
+  async function requestTextWithGET(url) {
+  const response = await fetch(url);
+  console.log('Response:', response); // vollständiges Response-Objekt
+  const text = await response.text();
+  console.log('Response-Text:', text); // Text aus dem Response-Body
+}
+//Trainingseinträge//
+// Funktion zum Laden und Anzeigen der gespeicherten Aktivitäten
     function loadActivities() {
         const activities = JSON.parse(localStorage.getItem("activities")) || {};
         const activityList = document.getElementById("activity-list");
@@ -64,3 +87,49 @@
 
       // Aktivitäten laden, wenn die Seite geladen wird
       document.addEventListener("DOMContentLoaded", loadActivities);
+
+
+      //neue-aktivitäten//
+       // Funktion zum Speichern der Aktivität
+ function saveActivity() {
+    const date = document.getElementById("date").value;
+    const sport = document.getElementById("sport").value;
+    const duration = document.getElementById("duration").value;
+    const feeling = document.getElementById("feeling").value;
+
+    if (!date || !sport || !duration || !feeling) {
+      alert("Bitte alle Felder ausfüllen!");
+      return;
+    }
+
+    // Aktivität als Objekt speichern
+    const activity = {
+      sport,
+      duration,
+      feeling,
+    };
+
+    // Bestehende Daten aus Local Storage abrufen
+    const activities = JSON.parse(localStorage.getItem("activities")) || {};
+
+    // Neue Aktivität unter dem angegebenen Datum speichern
+    activities[date] = activity;
+
+    // Daten zurück in Local Storage speichern
+    localStorage.setItem("activities", JSON.stringify(activities));
+
+    alert("Aktivität gespeichert!");
+}
+
+async function sendJsonWithPOST(url, jsonData) {
+  const response = await fetch(url, {
+    method: 'post',
+    body: jsonData}
+  )
+  // Auf Response kann wie bei GET reagiert werden
+}
+
+const activity ;
+const jsonData = JSON.stringify(activity);
+
+sendJsonWithPOST('http://127.0.0.1:3000/', jsonData); // Hier URL zu lokalem Server für Entwicklung
