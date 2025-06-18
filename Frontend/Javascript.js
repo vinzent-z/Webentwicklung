@@ -1,83 +1,85 @@
 
-}
 //Trainingseinträge//
 
 // Funktion zum Laden und Anzeigen der gespeicherten Aktivitäten
     function loadActivities() {
-        const activities = JSON.parse(localStorage.getItem("activities")) || {};
-        const activityList = document.getElementById("activity-list");
+  fetch('http://localhost:3000/activities')
+    .then(response => response.json())
+    .then(activities => {
+      const activityList = document.getElementById("activity-list");
+      activityList.innerHTML = "";
 
-        // Liste leeren
-        activityList.innerHTML = "";
-
-        // Aktivitäten durchlaufen und anzeigen
-        for (const [date, activity] of Object.entries(activities)) {
-          const listItem = document.createElement("li");
-          listItem.textContent = `Datum: ${date}, Sportart: ${activity.sport}, Dauer: ${activity.duration} Minuten, Gefühl: ${activity.feeling}`;
-
-
-          // Löschen-Button hinzufügen
-          const deleteButton = document.createElement("button");
-          deleteButton.textContent = "Löschen";
-          deleteButton.onclick = () => deleteActivity(date);
-
-          listItem.appendChild(editButton);
-          listItem.appendChild(deleteButton);
-          activityList.appendChild(listItem);
-        }
-
-        // Wenn keine Aktivitäten vorhanden sind
-        if (Object.keys(activities).length === 0) {
-          const noActivities = document.createElement("li");
-          noActivities.textContent = "Keine Aktivitäten gespeichert.";
-          activityList.appendChild(noActivities);
-        }
+      if (!activities.length) {
+        const noActivities = document.createElement("li");
+        noActivities.textContent = "Keine Aktivitäten gespeichert.";
+        activityList.appendChild(noActivities);
+        return;
       }
 
-      // Funktion zum Löschen einer Aktivität
-      function deleteActivity(date) {
-        const activities = JSON.parse(localStorage.getItem("activities")) || {};
-        delete activities[date]; // Aktivität mit dem angegebenen Datum löschen
-        localStorage.setItem("activities", JSON.stringify(activities)); // Aktualisierte Daten speichern
-        loadActivities(); // Liste neu laden
-        alert(`Aktivität am ${date} wurde gelöscht.`);
-      }
+      activities.forEach(activity => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `Datum: ${activity.date}, Sportart: ${activity.sport}, Dauer: ${activity.duration} Minuten, Gefühl: ${activity.feeling}`;
 
-      // Aktivitäten laden, wenn die Seite geladen wird
-      document.addEventListener("DOMContentLoaded", loadActivities);
+        // Löschen-Button
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Löschen";
+        deleteButton.onclick = function () {
+          if (confirm("Wirklich löschen?")) {
+            fetch(`http://localhost:3000/activity/${encodeURIComponent(activity.date)}`, {
+              method: 'DELETE'
+            })
+              .then(response => response.json())
+              .then(() => loadActivities());
+          }
+        };
 
+        listItem.appendChild(deleteButton);
+        activityList.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      console.error('Fehler beim Laden der Aktivitäten:', error);
+    });
+}
+
+// Aktivitäten laden, wenn
+document.addEventListener("DOMContentLoaded", loadActivities);
 
       //neue-aktivitäten//
 
+      // Funktion zum Speichern der Aktivität
+function saveActivity() {
+  const date = document.getElementById("date").value;
+  const sport = document.getElementById("sport").value;
+  const duration = document.getElementById("duration").value;
+  const feeling = document.getElementById("feeling").value;
 
-       // Funktion zum Speichern der Aktivität
- function saveActivity() {
-    const date = document.getElementById("date").value;
-    const sport = document.getElementById("sport").value;
-    const duration = document.getElementById("duration").value;
-    const feeling = document.getElementById("feeling").value;
+  if (!date || !sport || !duration || !feeling) {
+    alert("Bitte alle Felder ausfüllen!");
+    return;
+  }
 
-    if (!date || !sport || !duration || !feeling) {
-      alert("Bitte alle Felder ausfüllen!");
-      return;
-    }
+  const activity = {
+    date,
+    sport,
+    duration,
+    feeling,
+  };
 
-    // Aktivität als Objekt speichern
-    const activity = {
-      sport,
-      duration,
-      feeling,
-    };
-
-    // Bestehende Daten aus Local Storage abrufen
-    const activities = JSON.parse(localStorage.getItem("activities")) || {};
-
-    // Neue Aktivität unter dem angegebenen Datum speichern
-    activities[date] = activity;
-
-    // Daten zurück in Local Storage speichern
-    localStorage.setItem("activities", JSON.stringify(activities));
-
-    alert("Aktivität gespeichert!");
+  fetch('http://localhost:3000/activity', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(activity)
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        alert("Aktivität gespeichert!");
+        document.getElementById("activity-form").reset?.();
+        loadActivities?.();
+        updateStats?.();
+      } else {
+        alert("Fehler beim Speichern!");
+      }
+    });
 }
-
